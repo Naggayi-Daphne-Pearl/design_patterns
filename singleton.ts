@@ -2,8 +2,16 @@
 class Logger {
     // there should be one and only user at a time 
     // static means that we should be logging in and log out the user
-    static loggedInUser: object;
-    loggedInUser1: object;
+    private static loggedInUser: object;
+
+    // creating a single Instance for a user
+    static login(user:object) {
+        // we dont use this method, we use the name of the class name
+        if (Logger.loggedInUser === null) {
+            Logger.loggedInUser = new Logger(); // existing logger    
+        }
+        return Logger.loggedInUser; // calling back the logger
+    }
 
 
 
@@ -11,12 +19,3 @@ class Logger {
 
 // creating an instance of Logger
 let logger: Logger = new Logger(); 
-
-// Non-Static:Object Members
-// its object created can define its own properties
-logger.loggedInUser1
-
-// Static: Class Member
-// its variables are global variables and cut across all objects
-// only accessed through the class name
-Logger.loggedInUser; 
