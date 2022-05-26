@@ -2,7 +2,7 @@
 class Logger {
     // there should be one and only user at a time 
     // static means that we should be logging in and log out the user
-    loggedInUser: object;
+    static loggedInUser: object;
     loggedInUser1: object;
 
 
@@ -18,4 +18,5 @@ logger.loggedInUser1
 
 // Static: Class Member
 // its variables are global variables and cut across all objects
-logger.loggedInUser; 
+// only accessed through the class name
+Logger.loggedInUser; 
