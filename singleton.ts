@@ -5,9 +5,10 @@ class Logger {
     loggedInUser: object;
 
 
+
 }
 
 // creating an instance of Logger
 let logger: Logger = new Logger(); 
 
-logger.logInUser
+logger.loggedInUser
