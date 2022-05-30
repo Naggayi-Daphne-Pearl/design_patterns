@@ -1,13 +1,65 @@
 // Logger classes
 
+interface LoginStrategy{
+    login(loginCredentials:object):boolean;
+}
 
+class LoginWithUsername implements LoginStrategy{
+    login(loginCredentials:object){
+         let username = loginCredentials['username'];
+        let password = loginCredentials['password'];
+        if(username || password){
+            throw new Error('Username or password is missing');
+        }
+        // if(username === 'admin' && password === 'admin'){
+        //     return true;
+        // }
+        // return false;
+        return true;
+    }
+}
+
+class LoginWithEmailAndPassword implements LoginStrategy{
+    login(loginCredentials:object){
+        let email = loginCredentials['email'];
+        let password = loginCredentials['password'];
+        if(email || password){
+            throw new Error('Email or password is missing');
+        }
+        // if(email === 'arafat@gmail.com' && password === 'arafat'){
+        //     return true;
+        // }
+        // return false;
+        return true;
+    }
+}
+
+class LoginWithIdAndPassword implements LoginStrategy{
+    login(loginCredentials:object){
+        let id = loginCredentials['id'];
+        let password = loginCredentials['password'];
+        if(id || password){
+            throw new Error('Id or password is missing');
+        }
+        // if(id === '1' && password === 'arafat'){
+        //     return true;
+        // }
+        // return false;
+        return true;
+    }
+}
 
 class Logger {
     private static loggedInuser:object;
     private static userDetails = {}
+    private static loginStrategy:LoginStrategy;
 
     private constructor(user:object){
         Logger.userDetails = user;
+    }
+
+    static setLoginStraegy(loginStrategy:LoginStrategy){
+        Logger.loginStrategy = loginStrategy;
     }
 
     static logIn(user:object){
@@ -20,6 +72,7 @@ class Logger {
 
     static getLoggedInUser(){
         return Logger.userDetails;
+        
     }
 
     static logOut(){
@@ -200,13 +253,20 @@ function ChargeComputer(computer:ChargeableComputer){
 // let computer2 = new ChargeableComputer(new inputDataFromKeyboard(), new inMemoryy(), new CPU(), new Errors(), new Monitor());
 // ChargeComputer(computer2);
 
-// Logger.logIn({name: "John", password: '12345'});
-// console.log(Logger.getLoggedInUser());
-// Logger.logOut();
-// Logger.logIn({name: "Arafat", password: '12345'});
-// console.log(Logger.getLoggedInUser());
-// Logger.logIn({name: "Brisa", password: '12345'});
-// console.log(Logger.getLoggedInUser());
+
+// Immediately invoking the function to test the class. Define the function in the first ()
+(function testLogger(){
+Logger.setLoginStraegy(new LoginWithIdAndPassword());
+Logger.logIn({id:1, password:'arafat'});
+console.log(Logger.getLoggedInUser());
+Logger.logOut();
+
+Logger.setLoginStraegy(new LoginWithEmailAndPassword());
+Logger.logIn({email:'arafat@gmail.com', password:'arafat'});
+console.log(Logger.getLoggedInUser());
+Logger.logOut();
+})();
+
 
 
 class SecureComputer extends Computer{
@@ -224,35 +284,7 @@ class SecureComputer extends Computer{
     }
 }
 
-// function SecureComp(computer:SecureComputer){
-//     computer.input();
-//     computer.store('Data is being stored');
-//     computer.retrieve('Data is being retrieved');
-//     computer.process('Data processing happening');
-//     computer.display('Displaying on monitor');
-//     computer.handleError('');
-//     computer.setLogger(Logger.logIn({name: "John", password: '12345'}));
-//     console.log(computer.getLogger());
-//     computer.setLogger(Logger.getLoggedInUser());
-//     console.log(computer.getLogger());
-//     // computer.setLogger(Logger.logOut());
-//     // console.log(computer.getLogger());
-// }
-
-let computer3 = new SecureComputer(new inputDataFromKeyboard(), new inMemoryy(), new CPU(), new Errors(), new Monitor());
-// SecureComp(computer3);
-computer3.setLogger({name: 'Nina', password: '12345'});
-console.log(computer3.getLogger());
-
-
-
-
-
-
-// let secureComputer = new SecureComputer(new inputDataFromKeyboard(), new inMemoryy(), new CPU(), new Errors(), new Monitor());
-
-// secureComputer.setLogger(new Logger({name: "John", password: '12345'}));
-// console.log(secureComputer.getLogger());
-
+let secureComputer = new SecureComputer(new inputDataFromKeyboard(), new inMemoryy(), new CPU(), new Errors(), new Monitor());
+secureComputer.setLogger(Logger.logIn({id:1, password:'daphne'}));
 
 
